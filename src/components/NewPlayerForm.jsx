@@ -1,68 +1,56 @@
-import { useState } from "react"
-
-
+import { useForm } from "react-hook-form"
+import { useAddPlayerMutation } from "../API/puppyBowlApi"
+// setup inputform with default valueof our cohort id according to the docs and if the image isnt provided the default will give them one. The API didnt take my first inputs so this was the best way forward for me
 const NewPlayerForm = () =>{
-const [name, setName] = useState("")
-const [breed, setBreed] = useState("")
-const [status, setStatus] = useState("Bench")
-const [image, setImage] = useState("")
-const [teamId, setTeamId] = useState("")
+const {
+    register,
+    handleSubmit,
+    formState: {errors, isSubmitting},
+    reset
+} = useForm({defaultValues:{teamId: 7, imageUrl: "https://learndotresources.s3.amazonaws.com/workshop/60ad725bbe74cd0004a6cba0/puppybowl-default-dog.png"}})
+const [addPlayer,isLoading] = useAddPlayerMutation()
 
-const [error, setError] = useState(null)
+// function handleChange(e){
+//     setForm({
+//         ...form,
+//         [e.target.id]: e.target.value,
+//     })
+// };
 
 //eventhandler
 
-async function handleSubmit(e){
-    e.preventDefault()
-    // console.log('This is working')
-    try { 
-        const res = await fetch("https://fsa-jwt-practice.herokuapp.com/signup",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({username,password})
-            
-        })
-        const result = await res.json()
-
-        setToken(result.token)
-        console.log(token)
-        console.log(result)
-    } catch (error) {
-        setError(error.message);
+async function onSubmit(data){
+    console.log(`You added ${data.name} to the Puppy Bowl`)
+    await addPlayer(data)
+    reset()
     }
-}
 
     return (
         <section>
             <h2>Sign Up</h2>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSubmit}>
+            <fieldset >
+                <legend> Add Puppy to Roster </legend>
                 <label>
                     Puppy Name:{" "}
                     <input 
-                        value={name} onChange={(e) => {
-                            setName(e.target.value)
-                        }}
-                        
-                        required
+                        {...register("name", {
+                            required: "Name is required"
+                        })}
                         />
                 </label>
                 <label>
-                    Breed:{" "}
-                    <input 
-                        value={breed} onChange={(e) => {
-                            setBreed(e.target.value)
-                        }}
-                        
-                        required
-                        
+                    Breed:
+                    <input
+                    {...register("breed", {
+                        required: "Breed is required"
+                    })}
                         />
                 </label>
                 <label>
                     Status:
-                    <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <select
+                    {...register('status')}
+                    >
                         <option value="bench">Bench</option>
                         <option value="field">Field</option>
                     </select>                
@@ -70,23 +58,13 @@ async function handleSubmit(e){
                 <label>
                     Puppy Image:{" "}
                     <input 
-                        value={image} onChange={(e) => {
-                            setImage(e.target.value)
-                        }}
-                        
-                        />
+                    {...register("imageUrl")}
+                    />
                 </label>
-                <label>
-                   Team :{" "}
-                    <input 
-                        value={teamId} onChange={(e) => {
-                            setTeamId(e.target.value)
-                        }}
-                        required
-                        />
-                </label>
-                <button>Submit</button>
-            </form>
+                
+                <button 
+                disabled={isSubmitting} onClick={handleSubmit(onSubmit)} type="submit">Submit</button>
+            </fieldset>
         </section>
     )
 }

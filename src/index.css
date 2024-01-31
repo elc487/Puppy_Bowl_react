@@ -1,10 +1,17 @@
 /* Apply a background image to the entire body of the document. */
+html{
+  background-color: #000;
+}
+
 body {
   background-image: url("./concrete.jpg"); /* The image used as a background. */
   background-repeat: no-repeat; /* The background image will not repeat. */
   background-attachment: fixed; /* The background image will not scroll with the page. */
   background-size: cover; /* The background image will cover the entire area of the element. */
+  display: flex;
+
 }
+
 
 /* Styling for the introduction text of the application. */
 .intro {
@@ -27,10 +34,10 @@ body {
 
 /* Styling for individual player cards. */
 .player-card {
-  width: 360px; /* The width of the card. */
-  height: 380px; /* The height of the card. */
+  width: 350px; /* The width of the card. */
+  height: 450px; /* The height of the card. */
   margin: 10px; /* The margin around the card. */
-  background-color: aquamarine; /* The background color of the card. */
+  background-color:#333; /* The background color of the card. */
   border: 5px solid rgb(2, 2, 2);/* The border around the card. */
  border-radius: 1rem;/* The radius of the card's corners. */
    box-shadow: 10px 10px 10px rgb(9, 9, 9); /* The shadow effect around the card. */
@@ -70,7 +77,7 @@ body {
   flex-direction: column; /* The details are arranged in a column. */
   align-items: center; /* The details are centered along the vertical axis. */
   justify-content: center; /* The details are centered along the horizontal axis. */
-  color: #000; /* The color of the details text. */
+  color: #8f8e8e; /* The color of the details text. */
   font-size: 16px; /* The size of the details text. */
   text-align: center; /* The details text is centered. */
   margin-top: 0;
@@ -78,4 +85,89 @@ body {
 
 p {
   font-size: 12px;
+}
+
+/* Styling for form*/
+legend{
+  background: #9b9a9a;
+}
+fieldset{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1%;
+  padding: 1em 2em;
+  border-radius: 6px;
+  min-width: 200px;
+  background: #9b9a9a;
+}
+label{
+  display: inline-grid;
+  margin-top: 1em;
+  text-align: center;
+}
+input{
+  text-align: center;
+  margin-top: 0;
+  padding: .5em;
+  border: solid 1px;
+}
+
+#submit{
+  padding: .5em 1em;
+  border-radius: 6px;
+  background-color: #333;
+  color: #f8f2f2;
+  margin: auto;
+  
+}
+/* styling main container */
+.container{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.playercontainer{
+  flex: 1 1 65%;
+}
+
+h1{
+  text-align: center;
+  color: beige;
+}
+
+h2{
+  text-align: center;
+  color: beige;
+}
+
+.searchInputs{
+  display: flex;
+  text-align: center;
+  margin-left: 16px;
+  outline: none;
+  border: none;
+  background: transparent;
+
+}
+.search{
+  background:#333;
+  display: flex;
+  width: max-content;
+  align-items: center;
+  padding: 14px;
+  border-radius: 28px;
+}
+
+.delete{
+ float: right;
+ font-size: 2em;
+ color: red;
+}
+
+.back{
+  float:left;
+  font-size: 2em;
+  color:#9b9a9a;
 }

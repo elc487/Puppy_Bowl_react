@@ -7,10 +7,10 @@ export const puppyBowlApi = createApi({
   // Unique string used in constructing Redux action types, state selectors, and React hook names
   reducerPath: "puppyBowlApi",
   // Define a base query function that all endpoints will use as the base of their request
-  baseQuery: fetchBaseQuery({baseUrl: 'https://fsa-puppy-bowl.herokuapp.com/api/2310-fsa-pt-web/'
+  baseQuery: fetchBaseQuery({
     // The base URL for all requests
-    
-  }),
+    baseUrl: 'https://fsa-puppy-bowl.herokuapp.com/api/2310-fsa-pt-web/'}),
+    tagTypes: ['Puppies'],
   // Define endpoints for our API service
   endpoints: (builder) => ({
     fetchPlayers: builder.query
@@ -18,10 +18,37 @@ export const puppyBowlApi = createApi({
     ({
       // The part of the URL that comes after the baseUrl for this specific endpoint
       query:() => "players",
+      providesTags: ['Puppies']
     }),
+    fetchPlayer: builder.query
+    ({
+      query:(id) => `players/${id}`
+    }),
+    addPlayer: builder.mutation
+    ({
+      query:(newpup) => ({
+        url: 'players',
+        method: 'POST',
+        body: {
+          ...newpup,
+          teamId: parseInt(7)
+        }
+      }),
+      invalidatesTags: ['Puppies']
+    }),
+    deletePlayer: builder.mutation
+    ({
+      query:(id) => ({
+        url: `players/${id}`,
+        method: 'DELETE',
+        body: id
+      }),
+      invalidatesTags: ['Puppies']
+    })
   }),
+   
 });
 
 // Export hooks for each endpoint - in this case, a React hook that triggers the fetchPlayers query
 
-export const { useFetchPlayersQuery } = puppyBowlApi
+export const { useFetchPlayersQuery, useFetchPlayerQuery , useAddPlayerMutation, useDeletePlayerMutation} = puppyBowlApi
